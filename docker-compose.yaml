@@ -4,11 +4,27 @@ services:
     container_name: grafana
     restart: unless-stopped
     user: '0'
-    ports: 
+    ports:
       - '3000:3000'
     volumes:
       - '$PWD/data:/var/lib/grafana' # Menggunakan folder lokal ($PWD/data) di host sebagai penyimpanan data Grafana
       # - 'grafana_storage:/var/lib/grafana' # Menggunakan volume Docker yang dikelola secara otomatis
-      
+    networks:
+      - monitoring # Menghubungkan Grafana ke network 'monitoring'
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml # File konfigurasi Prometheus di-mount ke /etc/prometheus di container
+    networks:
+      - monitoring # Menghubungkan Grafana ke network 'monitoring'
+
 # volumes:
 #   grafana_storage: {} # Mendefinisikan volume bernama grafana_storage jika opsi ini digunakan di atas
+
+# Definisi network yang digunakan bersama
+networks:
+  monitoring:
+    driver: bridge # Menggunakan driver default bridge network untuk komunikasi antar-container
