@@ -1,0 +1,14 @@
+services:
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    restart: unless-stopped
+    user: '0'
+    ports: 
+      - '3000:3000'
+    volumes:
+      - '$PWD/data:/var/lib/grafana' # Menggunakan folder lokal ($PWD/data) di host sebagai penyimpanan data Grafana
+      # - 'grafana_storage:/var/lib/grafana' # Menggunakan volume Docker yang dikelola secara otomatis
+      
+# volumes:
+#   grafana_storage: {} # Mendefinisikan volume bernama grafana_storage jika opsi ini digunakan di atas
