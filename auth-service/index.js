@@ -19,10 +19,15 @@ register.registerMetric(httpRequestCounter);
 
 const app = express();
 
-app.get('/', (req, res) => {
-  httpRequestCounter.labels('GET', '/', '200').inc();
-  res.send('Hello World!');
-});
+// Middleware untuk otomatis hitung semua request
+// app.use((req, res, next) => {
+//   res.on('finish', () => {
+//     // Jika req.route tidak ada, fallback ke req.path
+//     const route = req.route ? req.route.path : req.path;
+//     httpRequestCounter.labels(req.method, route, res.statusCode.toString()).inc();
+//   });
+//   next();
+// });
 
 app.get('/metrics', async (req, res) => {
   try {
@@ -31,6 +36,11 @@ app.get('/metrics', async (req, res) => {
   } catch (err) {
     res.status(500).end(err);
   }
+});
+
+app.get('/', (req, res) => {
+  httpRequestCounter.labels('GET', '/', '200').inc();
+  res.send('Hello World!');
 });
 
 const port = 9000;
