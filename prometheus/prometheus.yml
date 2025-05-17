@@ -16,5 +16,4 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-    # - targets: ['auth-service:9000', 'user-service:9000'] # Ganti dengan host:port service backend / Exporter
-    - targets: ['host.docker.internal:9000', 'user-service:9000'] # Ganti dengan host:port service backend / Exporter
+    - targets: ['auth_service:9000', 'user_service:9000'] # Ganti dengan host:port service backend / Exporter
