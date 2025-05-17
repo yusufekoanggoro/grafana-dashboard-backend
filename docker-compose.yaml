@@ -1,4 +1,13 @@
 services:
+  auth_service:
+    build: ./auth-service
+    working_dir: /app
+    container_name: auth_service
+    ports:
+      - 9000:9000
+    networks:
+      - monitoring
+  
   grafana:
     image: grafana/grafana-oss
     container_name: grafana
